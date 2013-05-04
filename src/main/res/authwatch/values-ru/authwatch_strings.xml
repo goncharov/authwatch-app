@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="empty">Нет ни одного аккаунта.\nНажмите здесь, чтобы добавить</string>
+
+    <string name="configure_addon">Настройки дополнения</string>
+
+    <string name="main_preferences">Настройки</string>
+    <string name="show_dividers">Разделители</string>
+    <string name="show_dividers_summary">Отображать разделители (только для SmartWatch)</string>
+    <string name="roboto_black">Roboto Black</string>
+    <string name="roboto_black_sumary">Использовать шрифт Roboto Black для отображения кодов</string>
+    <string name="indicator_color">Цвет индикатора времени</string>
+    <string name="refresh_interval">Время обновления экрана</string>
+    <string name="vibrate_by_recalc">Вибрация</string>
+    <string name="vibrate_by_recalc_summary">Вибрировать при расчете нового кода (только для SmartWatch)</string>
+    <string name="chunked_code">Разбивать код</string>
+    <string name="page_indicator">Индикатор страниц</string>
+    <string name="indicator_color_custom">Кастомизировать цвет индикатора</string>
+    <string name="indicator_color_custom_summary">Выберите опцию \"Кастомизация\" в настройке \"Цвет индикатора времени\"</string>
+
+
+    <string name="other">Другое</string>
+    <string name="open_google_auth">Открыть Google Authenticator</string>
+    <string name="allow_google_analytics">Разрешить Google Analytics</string>
+    <string name="allow_google_analytics_summary">Помогите улучшить это приложение разрешив анонимную статистику</string>
+    <string name="app_info">Приложение</string>
+    <string name="version">Версия</string>
+    <string name="version_summary">%1$s (Основана на Google Auth %2$s)</string>
+    <string name="donate">Поддержать проект</string>
+    <string name="donate_donated">Спасибо за вашу поддержку!</string>
+    <string name="donate_summary">Помочь развитию проекта</string>
+    <string name="third_party_libs">Используемые библиотеки</string>
+    <string name="third_party_libs_summary">Спасибо разработчикам следующих библиотек, используемых в данном приложении</string>
+
+    <string-array name="refresh_interval_titles">
+        <item>0.5 с</item>
+        <item>1 с</item>
+        <item>2 с</item>
+        <item>5 с</item>
+        <item>10 с</item>
+    </string-array>
+
+    <string-array name="indicator_color_titles">
+        <item>Синий</item>
+        <item>Еще один синий</item>
+        <item>Зеленый</item>
+        <item>Серый</item>
+        <item>Кастомизация</item>
+    </string-array>
+
+    <string-array name="chunked_code_titles">
+        <item>Не разбивать</item>
+        <item>12 34 56</item>
+        <item>12-34-56</item>
+        <item>123 456</item>
+        <item>123-456</item>
+    </string-array>
+
+    <string-array name="page_indicator_titles">
+        <item>При необходимости</item>
+        <item>Отображать всегда</item>
+        <item>Не отображать</item>
+    </string-array>
+
+    <string name="chunked_summary">Например, так: %s</string>
+
+    <string name="authwatch_loading_title">Загрузка</string>
+
+    <string name="popup_title">Дорогой пользователь...</string>
+    <string name="popup_message">Пожалуйста, оцените это приложение в Маркете. Это не займет и минуты вашего времени</string>
+    <string name="popup_yes">Оценить</string>
+    <string name="popup_no">Нет, спасибо</string>
+</resources>

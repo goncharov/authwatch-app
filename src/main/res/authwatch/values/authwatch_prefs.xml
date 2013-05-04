@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="google_auth_version">2.21</string>
+
+    <string-array name="page_indicator_values">
+        <item>pager_only_if_necessary</item>
+        <item>pager_always</item>
+        <item>pager_never</item>
+    </string-array>
+
+    <string-array name="chunked_code_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="indicator_color_values">
+        <item>#ff6b8afc</item>
+        <item>#ff88b8f4</item>
+        <item>#ff8ec674</item>
+        <item>#ffd3d4d4</item>
+        <item>custom</item>
+    </string-array>
+
+    <string-array name="refresh_interval_values_ms">
+        <item>500</item>
+        <item>1000</item>
+        <item>2000</item>
+        <item>5000</item>
+        <item>10000</item>
+    </string-array>
+
+    <string name="default_page_indicator">pager_only_if_necessary</string>
+    <string name="default_refresh_interval">1000</string>
+    <string name="default_indicator_color">#ff6b8afc</string>
+    <string name="default_chanked_code">0</string>
+
+    <bool name="default_show_dividers">true</bool>
+    <bool name="default_vibrate">true</bool>
+    <bool name="default_roboto_black">true</bool>
+
+</resources>

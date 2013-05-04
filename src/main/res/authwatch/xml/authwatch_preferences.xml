@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/main_preferences">
+
+        <ListPreference
+            android:key="authwatch_update_interval_ms"
+            android:title="@string/refresh_interval"
+            android:defaultValue="@string/default_refresh_interval"
+            android:entries="@array/refresh_interval_titles"
+            android:entryValues="@array/refresh_interval_values_ms"/>
+
+        <CheckBoxPreference
+            android:key="authwatch_vibrate"
+            android:title="@string/vibrate_by_recalc"
+            android:summary="@string/vibrate_by_recalc_summary"
+            android:defaultValue="@bool/default_vibrate"/>
+
+        <CheckBoxPreference
+            android:key="authwatch_show_dividers"
+            android:title="@string/show_dividers"
+            android:summary="@string/show_dividers_summary"
+            android:defaultValue="@bool/default_show_dividers"/>
+
+        <CheckBoxPreference
+            android:key="authwatch_roboto_black"
+            android:title="@string/roboto_black"
+            android:summary="@string/roboto_black_sumary"
+            android:defaultValue="@bool/default_roboto_black"/>
+
+        <ListPreference
+            android:key="authwatch_indicator_color_argb"
+            android:title="@string/indicator_color"
+            android:defaultValue="@string/default_indicator_color"
+            android:entries="@array/indicator_color_titles"
+            android:entryValues="@array/indicator_color_values"/>
+
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="authwatch_indicator_color_custom"
+            android:enabled="false"
+            android:title="@string/indicator_color_custom"
+            android:summary="@string/indicator_color_custom_summary"
+            android:defaultValue="@integer/authwatch_cutom_color_default"
+            alphaSlider="false"/>
+
+        <ListPreference
+            android:key="page_indicator"
+            android:title="@string/page_indicator"
+            android:defaultValue="@string/default_page_indicator"
+            android:entries="@array/page_indicator_titles"
+            android:entryValues="@array/page_indicator_values"/>
+
+        <ListPreference
+            android:key="authwatch_split"
+            android:title="@string/chunked_code"
+            android:defaultValue="@string/default_chanked_code"
+            android:entries="@array/chunked_code_titles"
+            android:entryValues="@array/chunked_code_values"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/other">
+
+        <Preference android:title="@string/open_google_auth">
+            <intent
+                android:targetPackage="ru.thegoncharov.authwatch"
+                android:targetClass="com.google.android.apps.authenticator.AuthenticatorActivity"/>
+        </Preference>
+
+        <!--<CheckBoxPreference android:key="google_analytics"-->
+        <!--android:title="@string/allow_google_analytics"-->
+        <!--android:summary="@string/allow_google_analytics_summary"-->
+        <!--android:defaultValue="@bool/default_google_analytics" />-->
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/app_info">
+
+        <Preference android:key="authwatch_donate"
+                    android:title="@string/donate"
+                    android:summary="@string/donate_summary"
+                    android:enabled="false"/>
+
+        <Preference
+            android:key="authwatch_version"
+            android:title="@string/version"
+            android:summary="@string/version_summary"
+            android:selectable="false"/>
+
+        <Preference
+            android:title="@string/third_party_libs"
+            android:summary="@string/third_party_libs_summary"
+            android:persistent="true">
+            <intent android:action=".activities.AboutActivity"/>
+        </Preference>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

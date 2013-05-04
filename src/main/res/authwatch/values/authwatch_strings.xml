@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="authwatch">AuthWatch</string>
+
+    <string name="empty">No accounts here.\nTap to add</string>
+
+    <string name="configure_addon">Configure addon</string>
+
+    <string name="main_preferences">Preferences</string>
+    <string name="show_dividers">Dividers</string>
+    <string name="show_dividers_summary">Display dividers (SmartWatch only)</string>
+    <string name="roboto_black">Roboto Black</string>
+    <string name="roboto_black_sumary">Use Roboto Black font for display codes</string>
+    <string name="indicator_color">Indicator color</string>
+    <string name="refresh_interval">Screen refresh interval</string>
+    <string name="vibrate_by_recalc">Vibrate</string>
+    <string name="vibrate_by_recalc_summary">Vibrate by recalculating new code (SmartWatch only)</string>
+    <string name="chunked_code">Chunked code</string>
+    <string name="page_indicator">Page indicator</string>
+    <string name="indicator_color_custom">Customize indicator color</string>
+    <string name="indicator_color_custom_summary">Set \"Indicator color\" to \"Customize\" before</string>
+
+
+    <string name="other">Other</string>
+    <string name="open_google_auth">Open Google Authenticator app</string>
+    <string name="allow_google_analytics">Allow Google Analytics</string>
+    <string name="allow_google_analytics_summary">Please help improving this app by allowing anonymous usage statistics</string>
+    <string name="app_info">Application</string>
+    <string name="version">Version</string>
+    <string name="version_summary">%1$s (Based on Google Auth %2$s)</string>
+    <string name="donate">Donate</string>
+    <string name="donate_summary">Help improving this app</string>
+    <string name="donate_donated">Thanks for your support!</string>
+    <string name="third_party_libs">Third-party libraries</string>
+    <string name="third_party_libs_summary">Thanks to developers of libraries used in this app</string>
+
+    <string-array name="refresh_interval_titles">
+        <item>0.5 s</item>
+        <item>1 s</item>
+        <item>2 s</item>
+        <item>5 s</item>
+        <item>10 s</item>
+    </string-array>
+
+    <string-array name="indicator_color_titles">
+        <item>Blue</item>
+        <item>Yet Another Blue</item>
+        <item>Green</item>
+        <item>Grey</item>
+        <item>Customize</item>
+    </string-array>
+
+    <string-array name="chunked_code_titles">
+        <item>Don\'t split</item>
+        <item>12 34 56</item>
+        <item>12-34-56</item>
+        <item>123 456</item>
+        <item>123-456</item>
+    </string-array>
+
+    <string-array name="page_indicator_titles">
+        <item>If necessary</item>
+        <item>Always</item>
+        <item>Never</item>
+    </string-array>
+
+    <string name="chunked_summary">%s</string>
+
+    <string name="authwatch_loading_title">Loading</string>
+
+    <!--<bool name="default_always_show_pager">true</bool>-->
+    <!--<bool name="default_google_analytics">true</bool>-->
+
+    <string name="popup_title">Dear user...</string>
+    <string name="popup_message">Please rate this app in the Google Play. It does not take a minute of your time</string>
+    <string name="popup_yes">Rate</string>
+    <string name="popup_no">Don\'t rate</string>
+</resources>

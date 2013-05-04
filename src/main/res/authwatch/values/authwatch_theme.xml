@@ -1,0 +1,28 @@
+<resources>
+    <integer name="authwatch_cutom_color_default">0xff0028f0</integer>
+
+    <dimen name="authwatch_item_height">40px</dimen>
+    <dimen name="authwatch_page_indicator_height">8px</dimen>
+    <dimen name="authwatch_no_items_text">14px</dimen>
+
+    <dimen name="authwatch_item_height_headset">36px</dimen>
+    <!--<dimen name="authwatch_page_indicator_height_headset">5px</dimen>-->
+
+
+    <declare-styleable name="AuthWatchItem">
+        <attr name="dividerShow" format="boolean" />
+        <attr name="dividerSize" format="dimension" />
+        <attr name="indicatorSize" format="dimension" />
+        <attr name="indicatorStroke" format="dimension" />
+        <attr name="indicatorColor" format="color" />
+        <attr name="accountSize" format="dimension" />
+        <attr name="accountBold" format="boolean" />
+        <attr name="accountColor" format="color" />
+        <attr name="accountAntiAlias" format="boolean" />
+        <attr name="otpSize" format="dimension" />
+        <attr name="otpBold" format="boolean" />
+        <attr name="otpColor" format="color" />
+        <attr name="otaAntiAlias" format="boolean" />
+    </declare-styleable>
+
+</resources>

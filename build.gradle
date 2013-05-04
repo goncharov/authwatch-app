@@ -1,0 +1,76 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.3'
+    }
+}
+
+apply plugin: 'android'
+apply plugin: 'idea'
+
+android {
+    compileSdkVersion 15
+    
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java/authenticator', 'src/main/java/authwatch']
+            aidl.srcDirs = ['src/main/aidl/authenticator', 'src/main/aidl/authwatch']
+            res.srcDirs = ['src/main/res/authenticator', 'src/main/res/authwatch']
+        }
+    }
+
+    signingConfigs {
+        releasekey {
+            storeFile file(keystorePath)
+            storePassword keystorePassword
+            keyAlias keystoreAlias
+            keyPassword keystoreAliasPassword
+        }
+    }
+
+    defaultConfig {
+        versionCode 29
+        versionName "2.21.9"
+
+        minSdkVersion 7
+        targetSdkVersion 14
+
+        buildConfig "private static final boolean DEFAULT = true;", \
+            "public static final int VERSION_CODE = $versionCode;", \
+            "public static final String BILLING_KEY = \"$billingKey\";"
+    }
+
+    productFlavors {
+        authwatch {
+            versionName "1.21.9"
+        }
+        smallapp {
+            versionName "1.21.9-smallapp"
+        }
+    }
+
+    buildTypes {
+        market {
+            debuggable false
+            signingConfig signingConfigs.releasekey
+        }
+    }
+    
+    buildType = "market"
+
+}
+
+repositories {
+    maven { url 'https://raw.github.com/goncharov/smart-extension-api/master/' }
+    maven { url 'https://raw.github.com/goncharov/android-ColorPickerPreference/repo/' }
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.sonyericsson.extras.liveware:utils:1.0.4'
+    compile 'net.margaritov.preference:colorpicker:1.11'
+    instrumentTestCompile 'org.mockito:mockito-core:1.9.5'
+    smallappCompile fileTree(dir: 'libs', include: 'com.sony.smallapp.jar')
+}
