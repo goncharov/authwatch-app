@@ -46,9 +46,9 @@ android {
         authwatch {
             versionName "1.21.9"
         }
-        smallapp {
-            versionName "1.21.9-smallapp"
-        }
+        //smallapp {
+        //    versionName "1.21.9-smallapp"
+        //}
     }
 
     buildTypes {
@@ -72,5 +72,5 @@ dependencies {
     compile 'com.sonyericsson.extras.liveware:utils:1.0.4'
     compile 'net.margaritov.preference:colorpicker:1.11'
     instrumentTestCompile 'org.mockito:mockito-core:1.9.5'
-    smallappCompile fileTree(dir: 'libs', include: 'com.sony.smallapp.jar')
+    //smallappCompile fileTree(dir: 'libs', include: 'com.sony.smallapp.jar')
 }

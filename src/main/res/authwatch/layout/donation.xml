@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" android:paddingTop="25dp" android:paddingBottom="25dp">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:id="@+id/donation_price"
+                android:layout_gravity="center"
+                android:layout_weight="0"/>
+
+        <SeekBar
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:id="@+id/donation_bar"
+                android:max="3"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  style="?android:attr/buttonBarStyle"
+                  android:layout_gravity="bottom">
+
+        <Button
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="No, thanks"
+                android:layout_weight="1"
+                android:id="@+id/donation_cancel"/>
+
+        <Button
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Make donation"
+                android:layout_weight="1"
+                android:id="@+id/donation_confirm"/>
+
+    </LinearLayout>
+</LinearLayout>

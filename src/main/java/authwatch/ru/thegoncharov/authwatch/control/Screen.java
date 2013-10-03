@@ -4,41 +4,52 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.View;
 import ru.thegoncharov.authwatch.utils.OtpAccount;
 import ru.thegoncharov.authwatch.utils.PrefsHolder;
-import ru.thegoncharov.authwatch.utils.Utils;
 
-public class SmartWatchScreen {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Screen {
     private final DeviceControl control;
 
-    private final PrefsHolder prefs;
     private final Pager pager;
-    private final AuthWatchItem[] items;
+    private final List<Item> items;
     private final Typeface roboto;
-    private int count;
 
-    public SmartWatchScreen(DeviceControl control, Context context, PrefsHolder prefs) {
+    private int count;
+    private boolean drawDividers;
+    private int otpFormat;
+
+    public Screen(DeviceControl control, Context context) {
         this.control = control;
-        this.prefs = prefs;
-        items = control.createItemsArray();
+        items = new ArrayList<Item>(3);
         roboto = Typeface.createFromAsset(context.getAssets(), "RobotoBlack.ttf");
         pager = control.createPager();
     }
 
-    public void updateItems(OtpAccount[] newItems, double phase) {
-        if (newItems == null) return;
-        if (newItems.length <= 0 || newItems.length > control.getDisplayedItemsCount()) return;
-        count = newItems.length;
-        for (int i = 0; i < newItems.length; i++) {
-            items[i].setValues(
-                    newItems[i].account,
-                    Utils.formatOtp(prefs, newItems[i].ota),
-                    phase
-            );
-            items[i].setIndicatorColor(prefs.getIndicatorColor());
-            items[i].setOtaTypeface(prefs.isUseRobotoBlack() ? roboto : null);
+    public void updateItems(List<OtpAccount> viewItems, int startFrom, double phase, PrefsHolder prefs) {
+        if (viewItems == null || viewItems.size() <= 0) return;
+
+        items.clear();
+
+        drawDividers = prefs.isShowDividers();
+        otpFormat = prefs.getChunkMode();
+
+        count = viewItems.size();
+        if (count > control.getDisplayedItemsCount())
+            count = control.getDisplayedItemsCount();
+
+        for (int i = startFrom; i < startFrom + control.getDisplayedItemsCount(); i++) {
+            OtpAccount acc = viewItems.get(i);
+            if (acc == null) continue;
+            Item item = new Item(control.getContext());
+            item.setCodeFormat(otpFormat);
+            item.setValues(acc, phase);
+            item.setIndicatorColor(prefs.getIndicatorColor());
+            item.setOtaTypeface(prefs.isUseRobotoBlack() ? roboto : null);
+            items.add(item);
         }
     }
 
@@ -70,15 +81,15 @@ public class SmartWatchScreen {
             canvas.translate(0, pager.getPagerHeight());
         }
 
-        for (int i = 0; i < count; i++) {
-            items[i].layout(0, 0,
+        for (int i = 0; i < items.size(); i++) {
+            items.get(i).layout(0, 0,
                     control.getWidth(),
                     control.getItemHeight(isPagerVisible()));
-            items[i].draw(canvas);
-            if (control.isDrawDivider() && prefs.isShowDividers() && i != 0) {
+            items.get(i).draw(canvas);
+            if (control.isDrawDivider() && drawDividers && i != 0) {
                 canvas.drawLine(5, 0, control.getWidth() - 5, 0, control.getDividerPaint());
             }
-            canvas.translate(0, items[i].getHeight());
+            canvas.translate(0, items.get(i).getHeight());
         }
 
         return bitmap;

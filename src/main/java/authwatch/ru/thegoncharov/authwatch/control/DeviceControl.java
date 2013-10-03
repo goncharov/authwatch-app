@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.os.PowerManager;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.google.android.apps.authenticator.*;
@@ -25,25 +24,26 @@ import ru.thegoncharov.authwatch.utils.Utils;
 
 import java.util.List;
 
-import static android.os.PowerManager.PARTIAL_WAKE_LOCK;
 import static com.sonyericsson.extras.liveware.aef.control.Control.Intents.SWIPE_DIRECTION_LEFT;
 import static com.sonyericsson.extras.liveware.aef.control.Control.Intents.SWIPE_DIRECTION_RIGHT;
-import static ru.thegoncharov.authwatch.utils.AuthWatchConst.KEY;
 
-public abstract class DeviceControl extends ControlExtension {
-    protected final Context context;
+public abstract class DeviceControl extends BaseControl {
     protected final OtpSource otp;
+    protected final AccountDb db;
     protected PrefsHolder prefs;
 
     protected final Handler handler;
 
-    private ScreenUpdater updater;
-    private SmartWatchScreen screen;
+    private ScreenUpdater2 updater;
+
+    private Screen screen;
     private long updateInterval;
     private Bitmap bitmap;
 
     private int accountsCount;
     protected boolean isPaging = false;
+
+    private List<OtpAccount> accs;
 
     protected int page = 0;
     protected int totalPages = 0;
@@ -52,10 +52,10 @@ public abstract class DeviceControl extends ControlExtension {
 
     public DeviceControl(Context context, String host, Handler handler) {
         super(context, host);
-        this.context = context;
         this.handler = handler;
         prefs = new PrefsHolder(context);
         otp = DependencyInjector.getOtpProvider();
+        db = DependencyInjector.getAccountDb();
     }
 
     @Override
@@ -65,13 +65,15 @@ public abstract class DeviceControl extends ControlExtension {
         updateInterval = prefs.getUpdateIntervalMs();
         setScreenState(Control.Intents.SCREEN_STATE_ON);
         if (screen == null)
-            screen = new SmartWatchScreen(this, context, prefs);
+            screen = new Screen(this, context);
+
     }
 
     @Override
     public void onResume() {
-        wakeLock = createWakeLock(context);
+        wakeLock = Utils.createWakeLock(context);
         if (wakeLock != null) wakeLock.acquire();
+        accs = Utils.getAllAccounts(db, otp);
         startScreenUpdate();
     }
 
@@ -89,9 +91,10 @@ public abstract class DeviceControl extends ControlExtension {
         prefs.unregister();
     }
 
+
     protected void startScreenUpdate() {
         if (updater == null && handler != null) {
-            updater = new ScreenUpdater();
+            updater = new ScreenUpdater2();
             handler.post(updater);
         }
     }
@@ -103,24 +106,20 @@ public abstract class DeviceControl extends ControlExtension {
         }
     }
 
-    public abstract int getWidth();
-
-    public abstract int getHeight();
-
     public abstract int getDisplayedItemsCount();
 
     public abstract int getItemHeight(boolean pagerIsVisible);
 
     public abstract Pager createPager();
 
-    public abstract AuthWatchItem[] createItemsArray();
+    public abstract Item[] createItemsArray();
 
     protected abstract void showNoAccounts();
 
     public abstract Paint getDividerPaint();
 
     public int getAccountsCount() {
-        return accountsCount;
+        return accs != null ? accs.size() : 0;
     }
 
     public boolean isDrawDivider() {
@@ -171,43 +170,10 @@ public abstract class DeviceControl extends ControlExtension {
         return view;
     }
 
-    protected OtpAccount[] getAccounts(List<String> accounts, int page) {
-        int count = accounts.size();
-
-        totalPages = Utils.calculateTotalPages(count, getDisplayedItemsCount());
-
-        OtpAccount[] items = null;
-
-        if (page * getDisplayedItemsCount() < count) {
-            int countForCreate = count - (page * getDisplayedItemsCount());
-            int itemsCount = Math.min(getDisplayedItemsCount(), countForCreate);
-            items = new OtpAccount[itemsCount];
-            for (int i = 0; i < itemsCount; i++) {
-                try {
-                    String acc = accounts.get(page * getDisplayedItemsCount() + i);
-                    String code = otp.getNextCode(acc);
-                    items[i] = new OtpAccount(acc, code);
-                } catch (OtpSourceException e) {
-                    Log.e("GS", "OtpSourceException for account " + accounts.get(page * getDisplayedItemsCount() + i));
-                }
-            }
-            return items;
-        } else {
-            return new OtpAccount[0];
-        }
-    }
-
     @Override
     protected void showBitmap(Bitmap bitmap) {
         if (bitmap != null)
             super.showBitmap(bitmap);
-    }
-
-    private PowerManager.WakeLock createWakeLock(Context context) {
-        PowerManager powerMan = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        if (powerMan == null)
-            return null;
-        return powerMan.newWakeLock(PARTIAL_WAKE_LOCK, KEY);
     }
 
     private boolean checkPagerVisible(int count) {
@@ -221,6 +187,53 @@ public abstract class DeviceControl extends ControlExtension {
         return false;
     }
 
+    private class ScreenUpdater2 implements Runnable {
+        private double previousPhase = 2d;
+
+        @Override
+        public void run() {
+
+            if (accs.size() > 0) {
+                double phase = Utils.calculatePhase(otp);
+
+                if (previousPhase != 2d && phase > previousPhase && hasVibrator() && prefs.isVibrate()) {
+                    startVibrator(100, 0, 1);
+                }
+
+                if ((previousPhase != 2d && phase > previousPhase) || Utils.isRequiredFullRefresh(db, accs)) {
+                    accs = Utils.updateSecrets(otp, accs);
+                }
+
+                int startFrom = page * getDisplayedItemsCount();
+                if (startFrom > accs.size()) startFrom = 0;
+
+                totalPages = (int) Math.ceil(accs.size() / getDisplayedItemsCount());
+
+                screen.updateItems(accs, startFrom, phase, prefs);
+
+                if (checkPagerVisible(accs.size())) {
+                    screen.setPagerValues(page, totalPages);
+                    screen.setPagerVisible(true);
+                } else {
+                    screen.setPagerVisible(false);
+                }
+
+                bitmap = screen.toBitmap();
+                showBitmap(bitmap);
+
+                previousPhase = phase;
+            } else {
+                showNoAccounts();
+            }
+
+            if (handler != null) {
+                handler.removeCallbacks(this);
+                handler.postDelayed(this, updateInterval);
+            }
+        }
+    }
+     /*
+    @Deprecated
     private class ScreenUpdater implements Runnable {
         private double previousPhase = 2d;
 
@@ -233,7 +246,7 @@ public abstract class DeviceControl extends ControlExtension {
             if (accountsCount > 0) {
                 double phase = Utils.calculatePhase(otp);
 
-                OtpAccount[] items = getAccounts(accounts, page);
+                OtpAccount[] items = getAllAccounts(accounts, page);
 
                 if (previousPhase != 2d && phase > previousPhase && hasVibrator() && prefs.isVibrate()) {
                     startVibrator(100, 0, 1);
@@ -260,5 +273,5 @@ public abstract class DeviceControl extends ControlExtension {
                 handler.postDelayed(this, updateInterval);
             }
         }
-    }
+    }   */
 }

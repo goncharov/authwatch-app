@@ -18,7 +18,8 @@ import ru.thegoncharov.authwatch.BuildConfig;
 
 import static ru.thegoncharov.authwatch.billing.IabHelper.*;
 
-public class PreferencesActivity extends PreferenceActivity implements PrefsHolder.Listener {
+public class PreferencesActivity extends PreferenceActivity
+        implements PrefsHolder.Listener {
     private PrefsHolder prefs;
 
     private Preference updateInterval;
@@ -80,35 +81,6 @@ public class PreferencesActivity extends PreferenceActivity implements PrefsHold
         summaryIndicatorColor();
 
         refreshIndicatorColorCustom();
-
-        /*if (prefs.isShowPopup()) {
-            new AlertDialog.Builder(this)
-                    .setMessage(R.string.popup_message)
-                    .setTitle(R.string.popup_title)
-                    .setPositiveButton(R.string.popup_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            try {
-                                Intent marketIntent = new Intent(Intent.ACTION_VIEW,
-                                        Uri.parse("market://details?id=" + getPackageName()));
-                                marketIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
-                                        | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                                startActivity(marketIntent);
-                            } catch (Exception e) {
-                                Toast.makeText(PreferencesActivity.this,
-                                        "Unable to open market app", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    })
-                    .setNegativeButton(R.string.popup_no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).create()
-                    .show();
-        } */
     }
 
     @Override
@@ -124,7 +96,7 @@ public class PreferencesActivity extends PreferenceActivity implements PrefsHold
         }
     }
 
-    private void updateUi() {
+    private void updateUiByDonateInfo() {
         if (helper == null) return;
         if (alreadyDonated) {
             donate.setEnabled(true);
@@ -151,7 +123,7 @@ public class PreferencesActivity extends PreferenceActivity implements PrefsHold
             PreferencesActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    updateUi();
+                    updateUiByDonateInfo();
                 }
             });
         }
@@ -166,7 +138,7 @@ public class PreferencesActivity extends PreferenceActivity implements PrefsHold
                 PreferencesActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        updateUi();
+                        updateUiByDonateInfo();
                     }
                 });
             }
@@ -215,6 +187,8 @@ public class PreferencesActivity extends PreferenceActivity implements PrefsHold
 
         refreshIndicatorColorCustom();
     }
+
+
 
     private String summaryListPreference(String key, String defaultValue, int titlesArray,
                                          int valuesArray, String errorSummary) {

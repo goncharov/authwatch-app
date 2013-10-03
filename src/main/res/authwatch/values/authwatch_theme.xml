@@ -9,7 +9,7 @@
     <!--<dimen name="authwatch_page_indicator_height_headset">5px</dimen>-->
 
 
-    <declare-styleable name="AuthWatchItem">
+    <declare-styleable name="Item">
         <attr name="dividerShow" format="boolean" />
         <attr name="dividerSize" format="dimension" />
         <attr name="indicatorSize" format="dimension" />

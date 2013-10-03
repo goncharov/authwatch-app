@@ -27,7 +27,7 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 public class SmallAuthWatch extends SmallApplication {
-    @Override
+    //@Override
     public void onCreate() {
         super.onCreate();
 

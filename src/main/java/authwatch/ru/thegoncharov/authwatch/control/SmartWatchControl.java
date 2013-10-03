@@ -7,9 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import com.google.android.apps.authenticator.AuthenticatorActivity;
 import com.sonyericsson.extras.liveware.extension.util.control.ControlTouchEvent;
 import ru.thegoncharov.authwatch.R;
@@ -51,10 +49,10 @@ public class SmartWatchControl extends DeviceControl {
     }
 
     @Override
-    public AuthWatchItem[] createItemsArray() {
-        AuthWatchItem[] items = new AuthWatchItem[getDisplayedItemsCount()];
+    public Item[] createItemsArray() {
+        Item[] items = new Item[getDisplayedItemsCount()];
         for (int i = 0; i < items.length; i++) {
-            items[i] = new AuthWatchItem(context);
+            items[i] = new Item(context);
             items[i].layout(0, 0, WIDTH, HEIGHT / getDisplayedItemsCount());
         }
         return items;

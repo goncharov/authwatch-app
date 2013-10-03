@@ -46,11 +46,11 @@ public class HeadsetControl extends DeviceControl {
     }
 
     @Override
-    public AuthWatchItem[] createItemsArray() {
-        AuthWatchItem[] items = new AuthWatchItem[getDisplayedItemsCount()];
+    public Item[] createItemsArray() {
+        Item[] items = new Item[getDisplayedItemsCount()];
 
         for (int i = 0; i < items.length; i++) {
-            items[i] = new AuthWatchItem(context);
+            items[i] = new Item(context);
 
             items[i].setIndicatorColor(Color.WHITE);
             items[i].getIndicatorStrokePaint().setStrokeWidth(0.5f);
