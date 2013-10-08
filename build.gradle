@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.3'
+        classpath 'com.android.tools.build:gradle:0.5.7'
     }
 }
 
@@ -12,6 +12,7 @@ apply plugin: 'idea'
 
 android {
     compileSdkVersion 15
+    buildToolsVersion "18.0.1"
     
     sourceSets {
         main {
@@ -31,8 +32,8 @@ android {
     }
 
     defaultConfig {
-        versionCode 29
-        versionName "2.21.9"
+        versionCode 30
+        versionName "2.21.10"
 
         minSdkVersion 7
         targetSdkVersion 14
@@ -44,7 +45,7 @@ android {
 
     productFlavors {
         authwatch {
-            versionName "1.21.9"
+            versionName "2.21.10"
         }
         //smallapp {
         //    versionName "1.21.9-smallapp"
@@ -63,13 +64,13 @@ android {
 }
 
 repositories {
-    maven { url 'https://raw.github.com/goncharov/smart-extension-api/master/' }
+    maven { url 'https://raw.github.com/goncharov/smart-extension-api/2.0/' }
     maven { url 'https://raw.github.com/goncharov/android-ColorPickerPreference/repo/' }
     mavenCentral()
 }
 
 dependencies {
-    compile 'com.sonyericsson.extras.liveware:utils:1.0.4'
+    compile 'com.sonyericsson.extras.liveware:utils:2.0'
     compile 'net.margaritov.preference:colorpicker:1.11'
     instrumentTestCompile 'org.mockito:mockito-core:1.9.5'
     //smallappCompile fileTree(dir: 'libs', include: 'com.sony.smallapp.jar')

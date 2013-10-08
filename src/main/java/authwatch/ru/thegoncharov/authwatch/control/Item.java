@@ -34,25 +34,25 @@ public class Item extends View {
     public Item(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AuthWatchItem);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Item);
 
-        accPaint.setTextSize(a.getDimensionPixelSize(R.styleable.AuthWatchItem_accountSize, 12));
-        accPaint.setFakeBoldText(a.getBoolean(R.styleable.AuthWatchItem_accountBold, true));
-        accPaint.setColor(a.getColor(R.styleable.AuthWatchItem_accountColor, Color.parseColor("#ffdad8d4")));
-        if (a.getBoolean(R.styleable.AuthWatchItem_accountAntiAlias, true))
+        accPaint.setTextSize(a.getDimensionPixelSize(R.styleable.Item_accountSize, 12));
+        accPaint.setFakeBoldText(a.getBoolean(R.styleable.Item_accountBold, true));
+        accPaint.setColor(a.getColor(R.styleable.Item_accountColor, Color.parseColor("#ffdad8d4")));
+        if (a.getBoolean(R.styleable.Item_accountAntiAlias, true))
             accPaint.setFlags(ANTI_ALIAS_FLAG);
 
-        otaPaint.setTextSize(a.getDimensionPixelSize(R.styleable.AuthWatchItem_otpSize, 22));
-        otaPaint.setFakeBoldText(a.getBoolean(R.styleable.AuthWatchItem_otpBold, true));
-        otaPaint.setColor(a.getColor(R.styleable.AuthWatchItem_otpColor, Color.parseColor("#ffffffff")));
-        if (a.getBoolean(R.styleable.AuthWatchItem_otaAntiAlias, true)) {
+        otaPaint.setTextSize(a.getDimensionPixelSize(R.styleable.Item_otpSize, 22));
+        otaPaint.setFakeBoldText(a.getBoolean(R.styleable.Item_otpBold, true));
+        otaPaint.setColor(a.getColor(R.styleable.Item_otpColor, Color.parseColor("#ffffffff")));
+        if (a.getBoolean(R.styleable.Item_otaAntiAlias, true)) {
             otaPaint.setFlags(ANTI_ALIAS_FLAG);
         }
 
-        indicatorSize = a.getDimension(R.styleable.AuthWatchItem_indicatorSize, 24f);
-        indicatorStrokePaint.setStrokeWidth(a.getDimension(R.styleable.AuthWatchItem_indicatorStroke, 1.5f));
+        indicatorSize = a.getDimension(R.styleable.Item_indicatorSize, 24f);
+        indicatorStrokePaint.setStrokeWidth(a.getDimension(R.styleable.Item_indicatorStroke, 1.5f));
         indicatorStrokePaint.setStyle(Paint.Style.STROKE);
-        indicatorStrokePaint.setColor(a.getColor(R.styleable.AuthWatchItem_indicatorColor, Color.parseColor("#ff6b8afc")));
+        indicatorStrokePaint.setColor(a.getColor(R.styleable.Item_indicatorColor, Color.parseColor("#ff6b8afc")));
         indicatorBodyPaint.setColor(indicatorStrokePaint.getColor());
 
         indicatorByCounterBodyPaint = new Paint(indicatorBodyPaint);

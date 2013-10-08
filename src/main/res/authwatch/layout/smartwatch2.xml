@@ -7,7 +7,7 @@
               tools:ignore="PxUsage,UselessParent,HardcodedText" >
 
     <ListView
-            android:id="@+id/auth_list"
+            android:id="@+id/smartwatch2_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
     </ListView>
