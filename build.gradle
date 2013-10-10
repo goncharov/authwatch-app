@@ -22,18 +22,20 @@ android {
         }
     }
 
-    signingConfigs {
-        releasekey {
-            storeFile file(keystorePath)
-            storePassword keystorePassword
-            keyAlias keystoreAlias
-            keyPassword keystoreAliasPassword
-        }
-    }
+    //signingConfigs {
+    //    releasekey {
+     //       storeFile file(keystorePath)
+    //        storePassword keystorePassword
+   //         keyAlias keystoreAlias
+   //         keyPassword keystoreAliasPassword
+    //    }
+    //}
 
     defaultConfig {
         versionCode 30
         versionName "2.21.10"
+
+        billingKey = ""
 
         minSdkVersion 7
         targetSdkVersion 14
@@ -55,7 +57,7 @@ android {
     buildTypes {
         market {
             debuggable false
-            signingConfig signingConfigs.releasekey
+            //signingConfig signingConfigs.releasekey
         }
     }
     
