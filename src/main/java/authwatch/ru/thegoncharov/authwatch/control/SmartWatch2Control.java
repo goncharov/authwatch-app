@@ -34,15 +34,20 @@ public class SmartWatch2Control extends BaseControl {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        accs = Utils.getAllAccounts(db, otp);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-
-        accs = Utils.getAllAccounts(db, otp);
 
         showLayout(R.layout.smartwatch2, null);
         sendListCount(R.id.smartwatch2_list, accs.size());
 
         sendListPosition(R.id.smartwatch2_list, 0);
+
         for (int i = 0; i < accs.size(); i++) {
             onRequestListItem(R.id.smartwatch2_list, i);
 
