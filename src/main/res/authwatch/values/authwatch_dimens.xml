@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="authwatch_sw2_height">58dip</dimen>
+
+    <dimen name="authwatch_sw2_indicator_height">@dimen/authwatch_sw2_height</dimen>
+    <dimen name="authwatch_sw2_indicator_width">@dimen/authwatch_sw2_indicator_height</dimen>
+
+</resources>

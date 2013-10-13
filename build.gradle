@@ -13,6 +13,8 @@ apply plugin: 'idea'
 android {
     compileSdkVersion 15
     buildToolsVersion "18.0.1"
+
+    if (billingKey == null) billingKey = "DUMMY_KEY"
     
     sourceSets {
         main {
@@ -22,20 +24,18 @@ android {
         }
     }
 
-    //signingConfigs {
-    //    releasekey {
-     //       storeFile file(keystorePath)
-    //        storePassword keystorePassword
-   //         keyAlias keystoreAlias
-   //         keyPassword keystoreAliasPassword
-    //    }
-    //}
+    signingConfigs {
+        //releasekey {
+        //    storeFile file(keystorePath)
+        //    storePassword keystorePassword
+        //    keyAlias keystoreAlias
+        //    keyPassword keystoreAliasPassword
+        //}
+    }
 
     defaultConfig {
         versionCode 30
         versionName "2.21.10"
-
-        billingKey = ""
 
         minSdkVersion 7
         targetSdkVersion 14
@@ -49,19 +49,16 @@ android {
         authwatch {
             versionName "2.21.10"
         }
-        //smallapp {
-        //    versionName "1.21.9-smallapp"
-        //}
     }
 
     buildTypes {
-        market {
-            debuggable false
-            //signingConfig signingConfigs.releasekey
-        }
+        
+        //market {
+        //    debuggable false
+        //    signingConfig signingConfigs.releasekey
+        //}
     }
     
-    buildType = "market"
 
 }
 
