@@ -25,12 +25,12 @@ android {
     }
 
     signingConfigs {
-        //releasekey {
-        //    storeFile file(keystorePath)
-        //    storePassword keystorePassword
-        //    keyAlias keystoreAlias
-        //    keyPassword keystoreAliasPassword
-        //}
+        releasekey {
+            storeFile file(keystorePath)
+            storePassword keystorePassword
+            keyAlias keystoreAlias
+            keyPassword keystoreAliasPassword
+        }
     }
 
     defaultConfig {
@@ -53,10 +53,10 @@ android {
 
     buildTypes {
         
-        //market {
-        //    debuggable false
-        //    signingConfig signingConfigs.releasekey
-        //}
+        market {
+            debuggable false
+            signingConfig signingConfigs.releasekey
+        }
     }
     
 

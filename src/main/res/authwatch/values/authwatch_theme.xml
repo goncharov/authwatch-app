@@ -1,11 +1,7 @@
 <resources>
     <integer name="authwatch_cutom_color_default">0xff0028f0</integer>
 
-    <dimen name="authwatch_item_height">40px</dimen>
-    <dimen name="authwatch_page_indicator_height">8px</dimen>
-    <dimen name="authwatch_no_items_text">14px</dimen>
 
-    <dimen name="authwatch_item_height_headset">36px</dimen>
     <!--<dimen name="authwatch_page_indicator_height_headset">5px</dimen>-->
 
 

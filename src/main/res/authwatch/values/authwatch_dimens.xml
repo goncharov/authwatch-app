@@ -2,7 +2,15 @@
 <resources>
     <dimen name="authwatch_sw2_height">58dip</dimen>
 
-    <dimen name="authwatch_sw2_indicator_height">@dimen/authwatch_sw2_height</dimen>
+    <dimen name="authwatch_sw2_indicator_height">50dip</dimen>
     <dimen name="authwatch_sw2_indicator_width">@dimen/authwatch_sw2_indicator_height</dimen>
 
+    <dimen name="authwatch_sw2_text_size_pin">17dip</dimen>
+    <dimen name="authwatch_sw2_text_size_name">11dip</dimen>
+
+    <dimen name="authwatch_item_height">40px</dimen>
+    <dimen name="authwatch_page_indicator_height">8px</dimen>
+    <dimen name="authwatch_no_items_text">14px</dimen>
+
+    <dimen name="authwatch_item_height_headset">36px</dimen>
 </resources>

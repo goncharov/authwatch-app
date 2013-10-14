@@ -18,30 +18,32 @@
                   android:layout_width="match_parent"
                   android:text="NAME"
                   android:textColor="@android:color/white"
-                  android:textSize="@dimen/smart_watch_2_text_size_medium"
+                  android:textSize="@dimen/authwatch_sw2_text_size_name"
                   android:lines="1"
                   android:singleLine="true"
                   android:enabled="false"
                   android:ellipsize="marquee"
-                  android:gravity="center_vertical"/>
+                  android:gravity="center_vertical" android:paddingLeft="3dp" android:paddingRight="3dp"
+                  android:paddingTop="0dp" android:paddingBottom="0dp"/>
 
         <TextView android:id="@+id/smartwatch2_pin"
-                  android:layout_height="0dip"
+                  android:layout_height="wrap_content"
                   android:layout_width="match_parent"
                   android:text="PIN"
                   android:textColor="@android:color/white"
-                  android:textSize="@dimen/smart_watch_2_text_size_large"
+                  android:textSize="@dimen/authwatch_sw2_text_size_pin"
                   android:textStyle="bold"
                   android:lines="1"
                   android:singleLine="true"
-                  android:layout_weight="1"
-                  android:gravity="center_vertical"/>
+                  android:gravity="center_vertical" android:paddingRight="3dp" android:paddingLeft="3dp"
+                  android:paddingTop="0dp" android:paddingBottom="0dp" android:layout_marginTop="-3dp"/>
 
     </LinearLayout>
 
     <ImageView
             android:id="@+id/smartwatch2_time"
             android:layout_height="@dimen/authwatch_sw2_indicator_height"
-            android:layout_width="@dimen/authwatch_sw2_indicator_width" />
+            android:layout_width="@dimen/authwatch_sw2_indicator_width"
+            android:padding="4dip"/>
 
 </LinearLayout>
