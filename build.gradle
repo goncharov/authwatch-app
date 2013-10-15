@@ -14,8 +14,6 @@ android {
     compileSdkVersion 15
     buildToolsVersion "18.0.1"
 
-    if (billingKey == null) billingKey = "DUMMY_KEY"
-    
     sourceSets {
         main {
             java.srcDirs = ['src/main/java/authenticator', 'src/main/java/authwatch']
@@ -36,6 +34,7 @@ android {
     defaultConfig {
         versionCode 30
         versionName "2.21.10"
+        billingKey = "DUMMY_KEY"
 
         minSdkVersion 7
         targetSdkVersion 14
