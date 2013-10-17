@@ -29,7 +29,8 @@ public class AuthWatchService extends ExtensionService {
         boolean isSW2 = DeviceInfoHelper
                 .isSmartWatch2ApiAndScreenDetected(this, host);
         if (isSW2) {
-            return new SmartWatch2Control(this, host);
+            return new SmartWatch2Control(this, host, new Handler());
+
         } else {
             HostApplicationInfo hostApp = RegistrationAdapter
                     .getHostApplication(this, host);

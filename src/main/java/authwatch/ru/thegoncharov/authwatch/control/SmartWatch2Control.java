@@ -1,9 +1,11 @@
 package ru.thegoncharov.authwatch.control;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.*;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.android.apps.authenticator.AccountDb;
@@ -31,17 +33,23 @@ public class SmartWatch2Control extends BaseControl {
 
     protected final OtpSource otp;
     protected final AccountDb db;
+    private final Handler handler;
     protected PrefsHolder prefs;
 
     private List<OtpAccount> accs;
+    private List<ControlListItem> items;
 
     private final Paint stroke = new Paint(ANTI_ALIAS_FLAG);
     private final Paint body = new Paint(ANTI_ALIAS_FLAG);
 
-    Bitmap indicator;
+    private Bitmap indicator;
+    private byte[] indicatorBytes;
 
-    public SmartWatch2Control(Context context, String hostAppPackageName) {
+    private Updater updater;
+
+    public SmartWatch2Control(Context context, String hostAppPackageName, Handler handler) {
         super(context, hostAppPackageName);
+        this.handler = handler;
         prefs = new PrefsHolder(context);
         otp = DependencyInjector.getOtpProvider();
         db = DependencyInjector.getAccountDb();
@@ -50,12 +58,16 @@ public class SmartWatch2Control extends BaseControl {
         stroke.setStyle(Paint.Style.STROKE);
         stroke.setColor(prefs.getIndicatorColor());
         body.setColor(stroke.getColor());
+
+
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
         accs = Utils.getAllAccounts(db, otp);
+        items = new ArrayList<ControlListItem>(accs.size());
         indicator = indicatorForPhase(Utils.calculatePhase(otp), context, body, stroke);
     }
 
@@ -68,10 +80,19 @@ public class SmartWatch2Control extends BaseControl {
 
         sendListPosition(R.id.smartwatch2_list, 0);
 
-        /*for (int i = 0; i < accs.size(); i++) {
-            onRequestListItem(R.id.smartwatch2_list, i);
+        if (updater == null && handler != null) {
+            updater = new Updater();
+            handler.post(updater);
+        }
+    }
 
-        } */
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (updater != null) {
+            handler.removeCallbacks(updater);
+            updater = null;
+        }
     }
 
     @Override
@@ -87,13 +108,21 @@ public class SmartWatch2Control extends BaseControl {
     @Override
     public void onRequestListItem(int ref, int pos) {
         if (ref != -1 && pos != -1 && ref == R.id.smartwatch2_list) {
-            sendItem(createControlListItem(ref, pos));
+            sendItem(getControlListItem(ref, pos));
         }
     }
 
     private void sendItem(ControlListItem item) {
         if (item != null) {
             sendListItem(item);
+        }
+    }
+
+    private ControlListItem getControlListItem(int ref, int pos) {
+        if (items.size() > 0 && items.size() <= pos && items.get(pos) != null) {
+            return items.get(pos);
+        } else {
+            return createControlListItem(ref, pos);
         }
     }
 
@@ -105,21 +134,25 @@ public class SmartWatch2Control extends BaseControl {
         item.dataXmlLayout = R.layout.smartwatch2_item;
         item.listItemId = pos;
 
+        item.layoutData = bundles(accs.get(pos).account, accs.get(pos).ota, bitmapToByteArray(indicator));
+
+        return item;
+    }
+
+    private Bundle[] bundles(String name, String pin, byte[] indicatorBytes) {
         Bundle nameBundle = new Bundle();
         nameBundle.putInt(Control.Intents.EXTRA_LAYOUT_REFERENCE, R.id.smartwatch2_name);
-        nameBundle.putString(Control.Intents.EXTRA_TEXT, accs.get(pos).account);
+        nameBundle.putString(Control.Intents.EXTRA_TEXT, name);
 
         Bundle pinBundle = new Bundle();
         pinBundle.putInt(Control.Intents.EXTRA_LAYOUT_REFERENCE, R.id.smartwatch2_pin);
-        pinBundle.putString(Control.Intents.EXTRA_TEXT, accs.get(pos).ota);
+        pinBundle.putString(Control.Intents.EXTRA_TEXT, pin);
 
         Bundle timeBundle = new Bundle();
         timeBundle.putInt(Control.Intents.EXTRA_LAYOUT_REFERENCE, R.id.smartwatch2_time);
-        timeBundle.putByteArray(Control.Intents.EXTRA_DATA, bitmapToByteArray(indicator));
+        timeBundle.putByteArray(Control.Intents.EXTRA_DATA, indicatorBytes);
 
-        item.layoutData = new Bundle[] {nameBundle, pinBundle, timeBundle};
-
-        return item;
+        return new Bundle[] {nameBundle, pinBundle, timeBundle};
     }
 
     private byte[] bitmapToByteArray(Bitmap bitmap) {
@@ -159,11 +192,42 @@ public class SmartWatch2Control extends BaseControl {
 
 
     private class Updater implements Runnable {
+        private double previousPhase = 2d;
 
         @Override
         public void run() {
+            double phase = Utils.calculatePhase(otp);
 
+            if ((previousPhase != 2d && phase > previousPhase) || Utils.isRequiredFullRefresh(db, accs)) {
+                accs = Utils.updateSecrets(otp, accs);
+            }
+
+            indicator = indicatorForPhase(phase, context, body, stroke);
+            indicatorBytes = bitmapToByteArray(indicator);
+
+
+            for (int i = 0; i < items.size(); i++) {
+                items.get(i).layoutData = bundles(accs.get(i).account, accs.get(i).ota, indicatorBytes);
+            }
+
+            refreshList(R.id.smartwatch2_list);
+
+
+            previousPhase = phase;
+
+
+            if (handler != null) {
+                handler.removeCallbacks(this);
+                handler.postDelayed(this, 1000);
+            }
         }
+    }
+
+    protected void refreshList(int ref) {
+        Intent intent = new Intent(Control.Intents.CONTROL_LIST_REFRESH_REQUEST_INTENT);
+        intent.putExtra(Control.Intents.EXTRA_LAYOUT_REFERENCE, ref);
+        //intent.putExtra(Control.Intents.EXTRA_EXTENSION_KEY, );
+        sendToHostApp(intent);
     }
 
 }
