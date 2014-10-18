@@ -3,15 +3,15 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.3'
+        classpath 'com.android.tools.build:gradle:0.13.3'
     }
 }
 
-apply plugin: 'android'
-apply plugin: 'idea'
+apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 15
+    compileSdkVersion 19
+    buildToolsVersion '19.1'
     
     sourceSets {
         main {
@@ -21,8 +21,12 @@ android {
         }
     }
 
+    lintOptions {
+		abortOnError false
+    }
+    
     signingConfigs {
-        releasekey {
+        debugkey {
             storeFile file(keystorePath)
             storePassword keystorePassword
             keyAlias keystoreAlias
@@ -32,45 +36,40 @@ android {
 
     defaultConfig {
         versionCode 29
-        versionName "2.21.9"
+        versionName '2.21.9'
 
         minSdkVersion 7
         targetSdkVersion 14
 
-        buildConfig "private static final boolean DEFAULT = true;", \
-            "public static final int VERSION_CODE = $versionCode;", \
-            "public static final String BILLING_KEY = \"$billingKey\";"
+        buildConfigField 'String', 'BILLING_KEY', "\"$billingKey\""
     }
 
     productFlavors {
         authwatch {
-            versionName "1.21.9"
-        }
-        smallapp {
-            versionName "1.21.9-smallapp"
+            versionName '1.21.9'
         }
     }
 
     buildTypes {
-        market {
-            debuggable false
-            signingConfig signingConfigs.releasekey
+        debug {
+            debuggable true
+            signingConfig signingConfigs.debugkey
         }
     }
     
-    buildType = "market"
+    //buildType = 'market'
 
 }
 
 repositories {
-    maven { url 'https://raw.github.com/goncharov/smart-extension-api/master/' }
-    maven { url 'https://raw.github.com/goncharov/android-ColorPickerPreference/repo/' }
+    maven { url 'http://dl.bintray.com/goncharov/smart-extension-api/' }
+    maven { url 'http://dl.bintray.com/goncharov/color-picker-preference/' }
     mavenCentral()
 }
 
 dependencies {
     compile 'com.sonyericsson.extras.liveware:utils:1.0.4'
     compile 'net.margaritov.preference:colorpicker:1.11'
-    instrumentTestCompile 'org.mockito:mockito-core:1.9.5'
-    smallappCompile fileTree(dir: 'libs', include: 'com.sony.smallapp.jar')
+    //instrumentTestCompile 'org.mockito:mockito-core:1.9.5'
+    //smallappCompile fileTree(dir: 'libs', include: 'com.sony.smallapp.jar')
 }
