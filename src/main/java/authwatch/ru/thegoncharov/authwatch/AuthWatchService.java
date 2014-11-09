@@ -9,6 +9,7 @@ import com.sonyericsson.extras.liveware.extension.util.control.ControlExtension;
 import com.sonyericsson.extras.liveware.extension.util.registration.*;
 import ru.thegoncharov.authwatch.activities.PreferencesActivity;
 import ru.thegoncharov.authwatch.control.HeadsetControl;
+import ru.thegoncharov.authwatch.control.SmartWatch2Control;
 import ru.thegoncharov.authwatch.control.SmartWatchControl;
 import ru.thegoncharov.authwatch.utils.AuthWatchConst;
 
@@ -41,13 +42,38 @@ public class AuthWatchService extends ExtensionService {
         for (DeviceInfo device : hostApp.getDevices()) {
             for (DisplayInfo info : device.getDisplays()) {
                 if (info == null) continue;
-                if (info.sizeEquals(SmartWatchControl.WIDTH, SmartWatchControl.HEIGHT))
+
+                boolean isSW2 = DeviceInfoHelper
+                        .isSmartWatch2ApiAndScreenDetected(this, hostPackage);
+                if (isSW2)
+                    return new SmartWatch2Control(this, hostPackage, new Handler());
+                else
+                if (isSmartWatch(info))
                     return new SmartWatchControl(this, hostPackage, new Handler());
-                else if (info.sizeEquals(HeadsetControl.WIDTH, HeadsetControl.HEIGHT))
+                else
+                if (isHeadset(info))
                     return new HeadsetControl(this, hostPackage, new Handler());
             }
         }
         return null;
+    }
+
+    private boolean isHeadset(DisplayInfo info) {
+        return info.sizeEquals(
+                getResources().getDimensionPixelSize(R.dimen.headset_pro_control_width),
+                getResources().getDimensionPixelSize(R.dimen.headset_pro_control_height));
+    }
+
+    private boolean isSmartWatch(DisplayInfo info) {
+        return info.sizeEquals(
+                getResources().getDimensionPixelSize(R.dimen.smart_watch_control_width),
+                getResources().getDimensionPixelSize(R.dimen.smart_watch_control_height));
+    }
+
+    private boolean isSmartWatch2(DisplayInfo info) {
+        return info.sizeEquals(
+                getResources().getDimensionPixelSize(R.dimen.smart_watch_2_control_width),
+                getResources().getDimensionPixelSize(R.dimen.smart_watch_2_control_width));
     }
 
     protected class RegistrationInfo extends RegistrationInformation {
@@ -98,13 +124,15 @@ public class AuthWatchService extends ExtensionService {
         }
 
         private boolean isDisplayWidthAllowed(int width) {
-            return (width == SmartWatchControl.WIDTH) ||
-                   (width == HeadsetControl.WIDTH);
+            return (width == getResources().getDimensionPixelSize(R.dimen.smart_watch_control_width)) ||
+                   (width == getResources().getDimensionPixelSize(R.dimen.smart_watch_2_control_width)) ||
+                   (width == getResources().getDimensionPixelSize(R.dimen.headset_pro_control_width));
         }
 
         private boolean isDisplayHeightAllowed(int height) {
-            return (height == SmartWatchControl.HEIGHT) ||
-                   (height == HeadsetControl.HEIGHT);
+            return (height == getResources().getDimensionPixelSize(R.dimen.smart_watch_control_height)) ||
+                   (height == getResources().getDimensionPixelSize(R.dimen.smart_watch_2_control_height)) ||
+                   (height == getResources().getDimensionPixelSize(R.dimen.headset_pro_control_height));
         }
     }
 }

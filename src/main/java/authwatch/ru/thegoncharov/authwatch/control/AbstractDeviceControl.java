@@ -22,6 +22,8 @@ import ru.thegoncharov.authwatch.utils.AuthWatchConst;
 import ru.thegoncharov.authwatch.utils.OtpAccount;
 import ru.thegoncharov.authwatch.utils.PrefsHolder;
 import ru.thegoncharov.authwatch.utils.Utils;
+import ru.thegoncharov.authwatch.views.Passcode;
+import ru.thegoncharov.authwatch.views.Pager;
 
 import java.util.List;
 
@@ -30,7 +32,7 @@ import static com.sonyericsson.extras.liveware.aef.control.Control.Intents.SWIPE
 import static com.sonyericsson.extras.liveware.aef.control.Control.Intents.SWIPE_DIRECTION_RIGHT;
 import static ru.thegoncharov.authwatch.utils.AuthWatchConst.KEY;
 
-public abstract class DeviceControl extends ControlExtension {
+public abstract class AbstractDeviceControl extends ControlExtension {
     protected final Context context;
     protected final OtpSource otp;
     protected PrefsHolder prefs;
@@ -38,7 +40,7 @@ public abstract class DeviceControl extends ControlExtension {
     protected final Handler handler;
 
     private ScreenUpdater updater;
-    private SmartWatchScreen screen;
+    private ScreenHelper screen;
     private long updateInterval;
     private Bitmap bitmap;
 
@@ -50,7 +52,7 @@ public abstract class DeviceControl extends ControlExtension {
 
     private PowerManager.WakeLock wakeLock;
 
-    public DeviceControl(Context context, String host, Handler handler) {
+    public AbstractDeviceControl(Context context, String host, Handler handler) {
         super(context, host);
         this.context = context;
         this.handler = handler;
@@ -65,7 +67,7 @@ public abstract class DeviceControl extends ControlExtension {
         updateInterval = prefs.getUpdateIntervalMs();
         setScreenState(Control.Intents.SCREEN_STATE_ON);
         if (screen == null)
-            screen = new SmartWatchScreen(this, context, prefs);
+            screen = new ScreenHelper(this, context, prefs);
     }
 
     @Override
@@ -113,7 +115,7 @@ public abstract class DeviceControl extends ControlExtension {
 
     public abstract Pager createPager();
 
-    public abstract AuthWatchItem[] createItemsArray();
+    public abstract Passcode[] createItemsArray();
 
     protected abstract void showNoAccounts();
 

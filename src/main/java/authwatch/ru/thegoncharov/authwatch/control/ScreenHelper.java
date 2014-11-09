@@ -4,22 +4,23 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.View;
 import ru.thegoncharov.authwatch.utils.OtpAccount;
 import ru.thegoncharov.authwatch.utils.PrefsHolder;
 import ru.thegoncharov.authwatch.utils.Utils;
+import ru.thegoncharov.authwatch.views.Passcode;
+import ru.thegoncharov.authwatch.views.Pager;
 
-public class SmartWatchScreen {
-    private final DeviceControl control;
+public class ScreenHelper {
+    private final AbstractDeviceControl control;
 
     private final PrefsHolder prefs;
     private final Pager pager;
-    private final AuthWatchItem[] items;
+    private final Passcode[] items;
     private final Typeface roboto;
     private int count;
 
-    public SmartWatchScreen(DeviceControl control, Context context, PrefsHolder prefs) {
+    public ScreenHelper(AbstractDeviceControl control, Context context, PrefsHolder prefs) {
         this.control = control;
         this.prefs = prefs;
         items = control.createItemsArray();
@@ -38,7 +39,7 @@ public class SmartWatchScreen {
                     phase
             );
             items[i].setIndicatorColor(prefs.getIndicatorColor());
-            items[i].setOtaTypeface(prefs.isUseRobotoBlack() ? roboto : null);
+            items[i].setOtaTypeface(roboto);
         }
     }
 
@@ -53,9 +54,7 @@ public class SmartWatchScreen {
     }
 
     public boolean isPagerVisible() {
-        if (pager != null)
-            return pager.getVisibility() == View.VISIBLE;
-        return false;
+        return pager != null && pager.getVisibility() == View.VISIBLE;
     }
 
     public Bitmap toBitmap() {

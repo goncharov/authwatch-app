@@ -11,23 +11,28 @@ import com.sonyericsson.extras.liveware.aef.control.Control;
 import com.sonyericsson.extras.liveware.extension.util.ExtensionUtils;
 import com.sonyericsson.extras.liveware.extension.util.SmartWirelessHeadsetProUtil;
 import ru.thegoncharov.authwatch.R;
+import ru.thegoncharov.authwatch.views.Passcode;
+import ru.thegoncharov.authwatch.views.Pager;
 
-public class HeadsetControl extends DeviceControl {
-    public static final int WIDTH = 128;
-    public static final int HEIGHT = 36;
+public class HeadsetControl extends AbstractDeviceControl {
+    private final int mWidth;
+    private final int mHeight;
 
     public HeadsetControl(Context context, String host, Handler handler) {
         super(context, host, handler);
+
+        mHeight = context.getResources().getDimensionPixelSize(R.dimen.headset_pro_control_height);
+        mWidth = context.getResources().getDimensionPixelSize(R.dimen.headset_pro_control_width);
     }
 
     @Override
     public int getWidth() {
-        return WIDTH;
+        return mWidth;
     }
 
     @Override
     public int getHeight() {
-        return HEIGHT;
+        return mHeight;
     }
 
     @Override
@@ -37,7 +42,7 @@ public class HeadsetControl extends DeviceControl {
 
     @Override
     public int getItemHeight(boolean pagerIsVisible) {
-        return HEIGHT;
+        return mHeight;
     }
 
     @Override
@@ -46,11 +51,11 @@ public class HeadsetControl extends DeviceControl {
     }
 
     @Override
-    public AuthWatchItem[] createItemsArray() {
-        AuthWatchItem[] items = new AuthWatchItem[getDisplayedItemsCount()];
+    public Passcode[] createItemsArray() {
+        Passcode[] items = new Passcode[getDisplayedItemsCount()];
 
         for (int i = 0; i < items.length; i++) {
-            items[i] = new AuthWatchItem(context);
+            items[i] = new Passcode(context);
 
             items[i].setIndicatorColor(Color.WHITE);
             items[i].getIndicatorStrokePaint().setStrokeWidth(0.5f);
@@ -63,10 +68,7 @@ public class HeadsetControl extends DeviceControl {
             items[i].getOtaPaint().setAntiAlias(false);
             items[i].getOtaPaint().setFakeBoldText(false);
 
-            items[i].setLeft(0);
-            items[i].setRight(WIDTH);
-            items[i].setTop(0);
-            items[i].setBottom(HEIGHT / getDisplayedItemsCount());
+            items[i].layout(0, 0, mWidth, mHeight / getDisplayedItemsCount());
         }
 
         return items;

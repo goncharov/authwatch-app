@@ -1,33 +1,38 @@
-package ru.thegoncharov.authwatch.control;
+package ru.thegoncharov.authwatch.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
 public class Pager extends View {
     private TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
     private int currentPage = -1;
     private int totalPages = -1;
 
-    public static final int WIDTH = SmartWatchControl.WIDTH;
-    public static final int HEIGHT = 8;
+    private final int mWidth;
+    private final int mHeight;
+    private final float mMargins;
+
     private static final int X = 0;
     private static final int Y = 0;
-    private static final float MARGIN = 30f;
 
-    public Pager(Context context) {
-        this(context, null);
+    public Pager(Context context, Rect pagerRect, float sideMargins) {
+        this(context, null, pagerRect, sideMargins);
     }
 
-    public Pager(Context context, AttributeSet attrs) {
+    public Pager(Context context, AttributeSet attrs, Rect pagerRect, float sideMargins) {
         super(context, attrs);
-        layout(0, 0, WIDTH, HEIGHT);
+
+        layout(pagerRect.left, pagerRect.top, pagerRect.width(), pagerRect.height());
+        mWidth = pagerRect.width();
+        mHeight = pagerRect.height();
+        mMargins = sideMargins;
+
         paint.setColor(Color.parseColor("#ffdad8d4"));
         paint.setTextSize(10f);
         paint.setTextAlign(Paint.Align.CENTER);
@@ -41,11 +46,11 @@ public class Pager extends View {
             String current = Integer.toString(currentPage + 1);
             String total = Integer.toString(totalPages);
 
-            canvas.drawText(current, MARGIN / 2, getHeight(), paint);
-            canvas.drawText(total, getWidth() - MARGIN / 2, getHeight(), paint);
+            canvas.drawText(current, mMargins / 2, getHeight(), paint);
+            canvas.drawText(total, getWidth() - mMargins / 2, getHeight(), paint);
 
-            float lineWidth = getWidth() - MARGIN * 2;
-            float lineStart = MARGIN;
+            float lineWidth = getWidth() - mMargins * 2;
+            float lineStart = mMargins;
             float lineEnd = ((currentPage + 1) * lineWidth / totalPages) + lineStart;
 
             canvas.drawLine(lineStart, getHeight() / 2, lineEnd, getHeight() / 2, paint);
@@ -66,10 +71,10 @@ public class Pager extends View {
     }
 
     public int getPagerWidth() {
-        return WIDTH;
+        return mWidth;
     }
 
     public int getPagerHeight() {
-        return HEIGHT;
+        return mHeight;
     }
 }

@@ -6,32 +6,40 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Handler;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+
 import com.google.android.apps.authenticator.AuthenticatorActivity;
 import com.sonyericsson.extras.liveware.extension.util.control.ControlTouchEvent;
 import ru.thegoncharov.authwatch.R;
+import ru.thegoncharov.authwatch.views.Passcode;
+import ru.thegoncharov.authwatch.views.Pager;
 
-public class SmartWatchControl extends DeviceControl {
-    public static final int WIDTH = 128;
-    public static final int HEIGHT = 128;
+public class SmartWatchControl extends AbstractDeviceControl {
+    private final int mWidth;
+    private final int mHeight;
+
+    private final int mPagerHeight;
 
     private Paint dividerPaint;
 
     public SmartWatchControl(Context context, String host, Handler handler) {
         super(context, host, handler);
+
+        mHeight = context.getResources().getDimensionPixelSize(R.dimen.smart_watch_control_height);
+        mWidth = context.getResources().getDimensionPixelSize(R.dimen.smart_watch_control_width);
+        mPagerHeight = context.getResources().getDimensionPixelSize(R.dimen.authwatch_page_indicator_height);
     }
 
     @Override
     public int getWidth() {
-        return WIDTH;
+        return mWidth;
     }
 
     @Override
     public int getHeight() {
-        return HEIGHT;
+        return mHeight;
     }
 
     @Override
@@ -41,21 +49,25 @@ public class SmartWatchControl extends DeviceControl {
 
     @Override
     public int getItemHeight(boolean pagerIsVisible) {
-        int h = pagerIsVisible ? HEIGHT - Pager.HEIGHT : HEIGHT;
+        int h = pagerIsVisible ? getHeight() - mPagerHeight : getHeight();
         return h / getDisplayedItemsCount();
     }
 
     @Override
     public Pager createPager() {
-        return new Pager(context);
+        return new Pager(context, new Rect(0, 0, getWidth(), mPagerHeight), getPagerMargins());
+    }
+
+    public float getPagerMargins() {
+        return 30f;
     }
 
     @Override
-    public AuthWatchItem[] createItemsArray() {
-        AuthWatchItem[] items = new AuthWatchItem[getDisplayedItemsCount()];
+    public Passcode[] createItemsArray() {
+        Passcode[] items = new Passcode[getDisplayedItemsCount()];
         for (int i = 0; i < items.length; i++) {
-            items[i] = new AuthWatchItem(context);
-            items[i].layout(0, 0, WIDTH, HEIGHT / getDisplayedItemsCount());
+            items[i] = new Passcode(context);
+            items[i].layout(0, 0, getWidth(), getHeight() / getDisplayedItemsCount());
         }
         return items;
     }

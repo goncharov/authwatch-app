@@ -1,4 +1,4 @@
-package ru.thegoncharov.authwatch.control;
+package ru.thegoncharov.authwatch.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -6,13 +6,13 @@ import android.graphics.*;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
+
 import com.sonyericsson.extras.liveware.extension.util.ExtensionUtils;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 import static ru.thegoncharov.authwatch.R.styleable.*;
 
-public class AuthWatchItem extends View {
+public class Passcode extends View {
     private String acc;
     private String ota;
     private double phase;
@@ -24,32 +24,32 @@ public class AuthWatchItem extends View {
     private Paint indicatorStrokePaint = new Paint(ANTI_ALIAS_FLAG);
     private Paint indicatorBodyPaint = new Paint(ANTI_ALIAS_FLAG);
 
-    public AuthWatchItem(Context context) {
+    public Passcode(Context context) {
         this(context, null);
     }
 
-    public AuthWatchItem(Context context, AttributeSet attrs) {
+    public Passcode(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, AuthWatchItem);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, Passcode);
 
-        accPaint.setTextSize(typedArray.getDimensionPixelSize(AuthWatchItem_accountSize, 12));
-        accPaint.setFakeBoldText(typedArray.getBoolean(AuthWatchItem_accountBold, true));
-        accPaint.setColor(typedArray.getColor(AuthWatchItem_accountColor, Color.parseColor("#ffdad8d4")));
-        if (typedArray.getBoolean(AuthWatchItem_accountAntiAlias, true))
+        accPaint.setTextSize(typedArray.getDimensionPixelSize(Passcode_accountSize, 12));
+        accPaint.setFakeBoldText(typedArray.getBoolean(Passcode_accountBold, true));
+        accPaint.setColor(typedArray.getColor(Passcode_accountColor, Color.parseColor("#ffdad8d4")));
+        if (typedArray.getBoolean(Passcode_accountAntiAlias, true))
             accPaint.setFlags(ANTI_ALIAS_FLAG);
 
-        otaPaint.setTextSize(typedArray.getDimensionPixelSize(AuthWatchItem_otpSize, 22));
-        otaPaint.setFakeBoldText(typedArray.getBoolean(AuthWatchItem_otpBold, true));
-        otaPaint.setColor(typedArray.getColor(AuthWatchItem_otpColor, Color.parseColor("#ffffffff")));
-        if (typedArray.getBoolean(AuthWatchItem_otaAntiAlias, true)) {
+        otaPaint.setTextSize(typedArray.getDimensionPixelSize(Passcode_otpSize, 22));
+        otaPaint.setFakeBoldText(typedArray.getBoolean(Passcode_otpBold, true));
+        otaPaint.setColor(typedArray.getColor(Passcode_otpColor, Color.parseColor("#ffffffff")));
+        if (typedArray.getBoolean(Passcode_otaAntiAlias, true)) {
             otaPaint.setFlags(ANTI_ALIAS_FLAG);
         }
 
-        indicatorSize = typedArray.getDimension(AuthWatchItem_indicatorSize, 24f);
-        indicatorStrokePaint.setStrokeWidth(typedArray.getDimension(AuthWatchItem_indicatorStroke, 1.5f));
+        indicatorSize = typedArray.getDimension(Passcode_indicatorSize, 24f);
+        indicatorStrokePaint.setStrokeWidth(typedArray.getDimension(Passcode_indicatorStroke, 1.5f));
         indicatorStrokePaint.setStyle(Paint.Style.STROKE);
-        indicatorStrokePaint.setColor(typedArray.getColor(AuthWatchItem_indicatorColor, Color.parseColor("#ff6b8afc")));
+        indicatorStrokePaint.setColor(typedArray.getColor(Passcode_indicatorColor, Color.parseColor("#ff6b8afc")));
         indicatorBodyPaint.setColor(indicatorStrokePaint.getColor());
     }
 
