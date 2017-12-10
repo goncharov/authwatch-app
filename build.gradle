@@ -70,6 +70,10 @@ repositories {
 dependencies {
     compile 'com.sonyericsson.extras.liveware:utils:2.1'
     compile 'net.margaritov.preference:colorpicker:1.11'
+    def appCenterSdkVersion = '1.0.0'
+    compile "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
+    compile "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
+
     //instrumentTestCompile 'org.mockito:mockito-core:1.9.5'
     //smallappCompile fileTree(dir: 'libs', include: 'com.sony.smallapp.jar')
 }
