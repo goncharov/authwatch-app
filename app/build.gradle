@@ -35,8 +35,11 @@ android {
         buildConfigField 'String', 'BILLING_KEY', "\"$billingKey\""
     }
 
+    flavorDimensions 'watch'
+
     productFlavors {
         authwatch {
+            dimension 'watch'
             versionName '1.21.9'
         }
     }
