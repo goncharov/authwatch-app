@@ -1,0 +1,64 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion '19.1'
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java/authenticator', 'src/main/java/authwatch']
+            aidl.srcDirs = ['src/main/aidl/authenticator', 'src/main/aidl/authwatch']
+            res.srcDirs = ['src/main/res/authenticator', 'src/main/res/authwatch']
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    signingConfigs {
+        debugkey {
+            storeFile file(keystorePath)
+            storePassword keystorePassword
+            keyAlias keystoreAlias
+            keyPassword keystoreAliasPassword
+        }
+    }
+
+    defaultConfig {
+        versionCode 29
+        versionName '2.21.9'
+
+        minSdkVersion 7
+        targetSdkVersion 14
+
+        buildConfigField 'String', 'BILLING_KEY', "\"$billingKey\""
+    }
+
+    productFlavors {
+        authwatch {
+            versionName '1.21.9'
+        }
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            signingConfig signingConfigs.debugkey
+        }
+    }
+
+    //buildType = 'market'
+
+}
+
+dependencies {
+    compile 'com.sonyericsson.extras.liveware:utils:2.1'
+    compile 'net.margaritov.preference:colorpicker:1.11'
+    def appCenterSdkVersion = '1.0.0'
+    compile "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
+    compile "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
+
+    //instrumentTestCompile 'org.mockito:mockito-core:1.9.5'
+    //smallappCompile fileTree(dir: 'libs', include: 'com.sony.smallapp.jar')
+}

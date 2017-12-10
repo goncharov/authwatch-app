@@ -158,8 +158,8 @@ public class IabHelper {
      * block and is safe to call from a UI thread.
      *
      * @param ctx Your application or Activity context. Needed to bind to the in-app billing service.
-     * @param base64PublicKey Your application's public key, encoded in base64. 
-     *     This is used for verification of purchase signatures. You can find your app's base64-encoded 
+     * @param base64PublicKey Your application's public key, encoded in base64.
+     *     This is used for verification of purchase signatures. You can find your app's base64-encoded
      *     public key in your application's page on Google Play Developer Console. Note that this
      *     is NOT your "developer public key".
      */
@@ -168,7 +168,7 @@ public class IabHelper {
         mSignatureBase64 = base64PublicKey;
         logDebug("IAB helper created.");
     }
-    
+
     /**
      * Enables or disable debug logging through LogCat.
      */
@@ -176,7 +176,7 @@ public class IabHelper {
         mDebugLog = enable;
         mDebugTag = tag;
     }
-    
+
     public void enableDebugLogging(boolean enable) {
         mDebugLog = enable;
     }
@@ -572,7 +572,7 @@ public class IabHelper {
                logDebug("Successfully consumed sku: " + sku);
             }
             else {
-               logDebug("Error consuming consuming sku " + sku + ". " + getResponseDesc(response));
+               logDebug("Error consuming consuming sku " + sku + "src/main/aidl/authwatch " + getResponseDesc(response));
                throw new IabException(response, "Error consuming sku " + sku);
             }
         }
@@ -800,7 +800,7 @@ public class IabHelper {
         querySkus.putStringArrayList(GET_SKU_DETAILS_ITEM_LIST, skuList);
         Bundle skuDetails = mService.getSkuDetails(3, mContext.getPackageName(),
                 ITEM_TYPE_INAPP, querySkus);
-        
+
         if (!skuDetails.containsKey(RESPONSE_GET_SKU_DETAILS_LIST)) {
         	int response = getResponseCodeFromBundle(skuDetails);
             if (response != BILLING_RESPONSE_RESULT_OK) {
@@ -861,15 +861,15 @@ public class IabHelper {
             }
         })).start();
     }
-    
+
     void logDebug(String msg) {
         if (mDebugLog) Log.d(mDebugTag, msg);
     }
-    
+
     void logError(String msg) {
         Log.e(mDebugTag, "In-app billing error: " + msg);
     }
-    
+
     void logWarn(String msg) {
         Log.w(mDebugTag, "In-app billing warning: " + msg);
     }

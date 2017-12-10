@@ -24,7 +24,7 @@ public class ScreenHelper {
         this.control = control;
         this.prefs = prefs;
         items = control.createItemsArray();
-        roboto = Typeface.createFromAsset(context.getAssets(), "RobotoBlack.ttf");
+        roboto = Typeface.createFromAsset(context.getAssets(), "src/main/assets/RobotoBlack.ttf");
         pager = control.createPager();
     }
 
