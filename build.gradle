@@ -15,6 +15,6 @@ allprojects {
     repositories {
         maven { url 'http://dl.bintray.com/goncharov/smart-extension-api/' }
         maven { url 'http://dl.bintray.com/goncharov/color-picker-preference/' }
-        mavenCentral()
+        jcenter()
     }
 }

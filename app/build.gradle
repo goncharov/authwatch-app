@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     buildToolsVersion '27.0.2'
+    useLibrary 'org.apache.http.legacy'
 
     sourceSets {
         main {
@@ -29,8 +30,8 @@ android {
         versionCode 29
         versionName '2.21.9'
 
-        minSdkVersion 7
-        targetSdkVersion 14
+        minSdkVersion 15
+        targetSdkVersion 22
 
         buildConfigField 'String', 'BILLING_KEY', "\"$billingKey\""
     }
